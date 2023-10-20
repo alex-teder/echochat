@@ -1,9 +1,11 @@
 import { WebSocketServer } from "ws";
 
+console.clear();
+
 const wss = new WebSocketServer({ port: 8080 });
 
 wss.on("connection", (ws) => {
-  wss.clients.forEach((client) => client.send("--USER CONNECTED--"));
+  console.log("NEW CONNECTION");
 
   ws.on("message", (data) => {
     wss.clients.forEach((client) => {
@@ -13,9 +15,5 @@ wss.on("connection", (ws) => {
     });
   });
 
-  ws.on("close", () => {
-    wss.clients.forEach((client) => client.send("--USER LEFT THE CHANNEL--"));
-  });
-
-  ws.on("error", console.error);
+  ws.on("close", () => console.log("USER LEFT"));
 });
